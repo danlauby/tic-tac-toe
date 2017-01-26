@@ -1,14 +1,23 @@
+body {
+  text-align: center;
+  width: 100%;
+}
+
 .col-xs-4 {
   border: 1px solid black;
   height: 50px;
   width: 50px;
+  margin: auto;
+
 }
 
 .row {
-  width: 180px;
+  width: 150px;
+  margin: auto;
 }
 
-.container {
+.gameContainer {
+  margin: auto;
   height: 200px;
   width: 200px;
 }
