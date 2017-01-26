@@ -1,10 +1,11 @@
-function Player(playerName, symbol) {
+function Player(playerName, symbol, turn) {
   this.playerName = playerName;
   this.symbol = symbol;
+  this.turn = turn;
 }
 
 function Board() {
-  this.board = ['-','-','-','-','-','-','-','-','-'];
+  this.board = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
 }
 
 function Game(board, player1, player2) {
@@ -14,7 +15,7 @@ function Game(board, player1, player2) {
 }
 
 Game.prototype.clearBoard = function() {
-  activeBoard.board = ['-','-','-','-','-','-','-','-','-'];
+  activeBoard.board = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
 }
 
 
@@ -31,16 +32,39 @@ Game.prototype.clearBoard = function() {
 Game.prototype.setGame = function() {
   $('.show-board').empty();
   $('.show-board').append('<div class="container"></div>');
-    for (i=0 ; i<=2 ; i++) {
-      $('.container').append('<div class="row" id="row' + i + '"></div>');
-        for (j=0; j<=2; j++) {
-          $('#row' + i).append('<div class="col-xs-4" id="column' + j + '"></div>');
-        }
-    }
-    return "works";
+  for (i=0 ; i<=2 ; i++) {
+    $('.container').append('<div class="row" id="row' + i + '"></div>');
+      for (j=0; j<=2; j++) {
+        $('#row' + i).append('<div class="col-xs-4" id="column' + i + "-" + j + '"></div>');
+      }
+  }
+  // newGame.clearBoard();
+  return "setgame works";
 }
 
-var player1 = new Player('Dan', 'X');
-var player2 = new Player('Matt', 'O');
-var board = new Board();
-var newGame = new Game(board, player1, player2);
+Game.prototype.fillBoard = function(){
+  $("#column0-0").append("<p>X</p>");
+  return "fill works";
+}
+
+$(function(){
+  var player1 = new Player('Dan', 'X',true);
+  var player2 = new Player('Matt', 'O', false);
+  var board = new Board();
+  var newGame = new Game(board, player1, player2);
+
+  newGame.setGame();
+  $(".col-xs-4").click(function(){
+    console.log(this.id);
+    if(player1.turn === true){
+      $("#" + this.id).append("<p>X</p>");
+      player1.turn = false;
+      player2.turn = true;
+    }else{
+      $("#" + this.id).append("<p>0</p>");
+      player1.turn = true;
+      player2.turn = false;
+    };
+  })
+
+});
