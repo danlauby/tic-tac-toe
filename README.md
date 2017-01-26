@@ -16,3 +16,4 @@ Basic tic-tac-toe game using constructors and prototypes.
 |first player (X) chooses square to mark| click on a square| X on that square|
 |game switches player| player (X) takes turn| player's (O) turn|
 |check for win conditions| if top row is XXX| player (X) wins|
+|If game is won| Player (X) wins| Board is disabled|

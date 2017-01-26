@@ -36,24 +36,31 @@ Game.prototype.checkWin = function() {
     this.gameOver = true;
   }else if (this.board.column10 === this.board.column11 && this.board.column10 === this.board.column12) {
     console.log('someone wins second row');
+    winnerIs = this.board.column10;
     this.gameOver = true;
   }else if (this.board.column20 === this.board.column21 && this.board.column20 === this.board.column22) {
     console.log('someone wins third row');
+    winnerIs = this.board.column20;
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column10 && this.board.column00 === this.board.column20) {
     console.log('someone wins first column');
+    winnerIs = this.board.column00;
     this.gameOver = true;
   }else if (this.board.column01 === this.board.column11 && this.board.column01 === this.board.column21) {
     console.log('someone wins second column');
+    winnerIs = this.board.column01;
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column12 && this.board.column02 === this.board.column22) {
     console.log('someone wins third column');
+    winnerIs = this.board.column02;
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column11 && this.board.column00 === this.board.column22) {
     console.log('someone wins backslash');
+    winnerIs = this.board.column00;
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column11 && this.board.column02 === this.board.column20) {
     console.log('someone wins forwardslash');
+    winnerIs = this.board.column02;
     this.gameOver = true;
   }
 
@@ -63,6 +70,8 @@ Game.prototype.checkWin = function() {
   var search = reg.exec(objValues);
   if (search === null) {
     console.log("Tie game");
+    winnerIs = "-";
+    this.gameOver = true;
   }
 
   if(this.gameOver===true){
@@ -105,30 +114,47 @@ $(function(){
   var board = new Board();
   var newGame = new Game(board, player1, player2);
 
-  newGame.setGame();
-  $(".col-xs-4").click(function(){
-    if(newGame.gameOver === false){
-      if(player1.turn === true){
-        if($(this).children().length===0){
-          $("#" + this.id).append("<p>X</p>");
-          newGame.board[this.id] = 'X';
-          player1.turn = false;
-          player2.turn = true;
-          // newGame.checkWin();
-          console.log(newGame.winner);
-          if(newGame.checkWin()==="X" || newGame.checkWin()==="O"){
-            $(".show-board").prepend("<h1>"+newGame.checkWin()+" is the winner!</h1>");
+
+  $(".startGame").click(function(){
+    newGame.setGame();
+    newGame.gameOver = false;
+    newGame.player1.turn = true;
+    newGame.player2.turn = false;
+
+    $(".col-xs-4").click(function(){
+      if(newGame.gameOver === false){
+        if(player1.turn === true){
+          if($(this).children().length===0){
+            $("#" + this.id).append("<p>X</p>");
+            newGame.board[this.id] = 'X';
+            player1.turn = false;
+            player2.turn = true;
+            console.log(newGame.winner);
+            if(newGame.checkWin()==="X" || newGame.checkWin()==="O" || newGame.checkWin()==="-"){
+              if(newGame.checkWin()==="X" || newGame.checkWin()==="O"){
+                $(".show-board").prepend("<h1>"+ newGame.checkWin()+ " is the winner!</h1>");
+              } else if (newGame.checkWin()==="-"){
+                $(".show-board").prepend("<h1>It's a tie!</h1>");
+              }
+            }
           }
-        }
-      }else{
-        if($(this).children().length===0){
-          $("#" + this.id).append("<p>0</p>");
-          newGame.board[this.id] = 'O';
-          player1.turn = true;
-          player2.turn = false;
-          newGame.checkWin();
-        }
-      };
-    }
-  })
+        }else{
+          if($(this).children().length===0){
+            $("#" + this.id).append("<p>0</p>");
+            newGame.board[this.id] = 'O';
+            player1.turn = true;
+            player2.turn = false;
+            if(newGame.checkWin()==="X" || newGame.checkWin()==="O" || newGame.checkWin()==="-"){
+              if(newGame.checkWin()==="X" || newGame.checkWin()==="O"){
+                $(".show-board").prepend("<h1>"+ newGame.checkWin()+ " is the winner!</h1>");
+              } else if (newGame.checkWin()==="-"){
+                $(".show-board").prepend("<h1>It's a tie!</h1>");
+              }
+            }
+          }
+        };
+      }
+    })
+  });
+
 });
