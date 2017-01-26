@@ -31,37 +31,60 @@ Game.prototype.checkWin = function() {
   var winnerIs="";
   // console.log(this.board);
   if (this.board.column00 === this.board.column01 && this.board.column00 === this.board.column02) {
-    console.log('someone wins first row');
-    // console.log(this.player1);
-    winnerIs = this.board.column00;
+    if(this.board.column00 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column10 === this.board.column11 && this.board.column10 === this.board.column12) {
-    console.log('someone wins second row');
-    winnerIs = this.board.column10;
+    if(this.board.column10 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column20 === this.board.column21 && this.board.column20 === this.board.column22) {
-    console.log('someone wins third row');
-    winnerIs = this.board.column20;
+    if(this.board.column20 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column10 && this.board.column00 === this.board.column20) {
-    console.log('someone wins first column');
-    winnerIs = this.board.column00;
+    if(this.board.column00 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column01 === this.board.column11 && this.board.column01 === this.board.column21) {
-    console.log('someone wins second column');
-    winnerIs = this.board.column01;
+    if(this.board.column01 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column12 && this.board.column02 === this.board.column22) {
-    console.log('someone wins third column');
-    winnerIs = this.board.column02;
+    if(this.board.column02 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column11 && this.board.column00 === this.board.column22) {
-    console.log('someone wins backslash');
-    winnerIs = this.board.column00;
+    if(this.board.column00 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column11 && this.board.column02 === this.board.column20) {
-    console.log('someone wins forwardslash');
-    winnerIs = this.board.column02;
+    if(this.board.column02 === "X"){
+      winnerIs = this.player1.playerName;
+    }else{
+      winnerIs = this.player2.playerName;
+    }
     this.gameOver = true;
   }
 
@@ -111,15 +134,21 @@ Game.prototype.setGame = function() {
 // }
 
 $(function(){
-  var player1 = new Player("player1Name", 'X',true);
-  var player2 = new Player("player2Name", 'O', false);
-  var board = new Board();
-  var newGame = new Game(board, player1, player2);
   $(".startGame").click(function(){
-    // var player1Name = $("#player1").val();
-    // var player2Name = $("#player2").val();
-    // console.log(player1 Name + player2Name);
+    var player1Name = $("#player1").val();
+    var player2Name = $("#player2").val();
+    if(player1Name === ""){
+      player1Name = "Player 1";
+    };
+    if(player2Name === ""){
+      player2Name = "Player 2";
+    };
 
+
+    var player1 = new Player(player1Name, 'X',true);
+    var player2 = new Player(player2Name, 'O', false);
+    var board = new Board();
+    var newGame = new Game(board, player1, player2);
     newGame.setGame();
     newGame.gameOver = false;
     newGame.player1.turn = true;
@@ -134,8 +163,9 @@ $(function(){
             player1.turn = false;
             player2.turn = true;
             var win = newGame.checkWin();
-            if(win==="X" || win==="-"){
-              if(win==="X"){
+            // console.log("winner is: " + win);
+            if(win===player1Name || win==="-"){
+              if(win===player1Name){
                 $(".win-board").prepend("<h2>"+ win+ " is the winner!</h2>");
               } else if (win==="-"){
                 $(".win-board").prepend("<h2>It's a tie!</h2>");
@@ -149,8 +179,8 @@ $(function(){
             player1.turn = true;
             player2.turn = false;
             var win = newGame.checkWin();
-            if(win==="O" || win==="-"){
-              if(win==="O"){
+            if(win===player2Name || win==="-"){
+              if(win===player2Name){
                 $(".win-board").prepend("<h2>"+ win+ " is the winner!</h2>");
               } else if (win==="-"){
                 $(".win-board").prepend("<h2>It's a tie!</h2>");
