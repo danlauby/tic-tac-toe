@@ -28,6 +28,9 @@ Game.prototype.clearBoard = function() {
 }
 
 Game.prototype.checkWin = function() {
+  var objValues = Object.values(this.board).join("");
+  var reg = new RegExp(/[0-8]/g);
+  var search = reg.exec(objValues);
   var winnerIs="";
   // console.log(this.board);
   if (this.board.column00 === this.board.column01 && this.board.column00 === this.board.column02) {
@@ -86,13 +89,7 @@ Game.prototype.checkWin = function() {
       winnerIs = this.player2.playerName;
     }
     this.gameOver = true;
-  }
-
-  //checks for tie game
-  var objValues = Object.values(this.board).join("");
-  var reg = new RegExp(/[0-8]/g);
-  var search = reg.exec(objValues);
-  if (search === null) {
+  } else if (search === null) {
     console.log("Tie game");
     winnerIs = "-";
     this.gameOver = true;
