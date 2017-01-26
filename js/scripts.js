@@ -31,72 +31,106 @@ Game.prototype.checkWin = function() {
   var objValues = Object.values(this.board).join("");
   var reg = new RegExp(/[0-8]/g);
   var search = reg.exec(objValues);
-  var winnerIs="";
+  var winInfo = [];
   // console.log(this.board);
   if (this.board.column00 === this.board.column01 && this.board.column00 === this.board.column02) {
     if(this.board.column00 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column00");
+    winInfo.push("column01");
+    winInfo.push("column02");
     this.gameOver = true;
   }else if (this.board.column10 === this.board.column11 && this.board.column10 === this.board.column12) {
     if(this.board.column10 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column10");
+    winInfo.push("column11");
+    winInfo.push("column12");
     this.gameOver = true;
   }else if (this.board.column20 === this.board.column21 && this.board.column20 === this.board.column22) {
     if(this.board.column20 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column20");
+    winInfo.push("column21");
+    winInfo.push("column22");
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column10 && this.board.column00 === this.board.column20) {
     if(this.board.column00 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column00");
+    winInfo.push("column10");
+    winInfo.push("column20");
     this.gameOver = true;
   }else if (this.board.column01 === this.board.column11 && this.board.column01 === this.board.column21) {
     if(this.board.column01 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column01");
+    winInfo.push("column11");
+    winInfo.push("column21");
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column12 && this.board.column02 === this.board.column22) {
     if(this.board.column02 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column02");
+    winInfo.push("column12");
+    winInfo.push("column22");
     this.gameOver = true;
   }else if (this.board.column00 === this.board.column11 && this.board.column00 === this.board.column22) {
     if(this.board.column00 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column00");
+    winInfo.push("column11");
+    winInfo.push("column22");
     this.gameOver = true;
   }else if (this.board.column02 === this.board.column11 && this.board.column02 === this.board.column20) {
     if(this.board.column02 === "X"){
-      winnerIs = this.player1.playerName;
+      winInfo.push(this.player1.playerName);
+
     }else{
-      winnerIs = this.player2.playerName;
+      winInfo.push(this.player2.playerName);
     }
+    winInfo.push("column02");
+    winInfo.push("column11");
+    winInfo.push("column20");
     this.gameOver = true;
   } else if (search === null) {
     console.log("Tie game");
-    winnerIs = "-";
+    winInfo.push("-");
     this.gameOver = true;
   }
 
   if(this.gameOver===true){
-    return winnerIs;
+    return winInfo;
+  }else{
+    return ["no winner"]
   }
 }
 
@@ -165,14 +199,18 @@ $(function(){
             player1.turn = false;
             player2.turn = true;
             var win = newGame.checkWin();
-            // console.log("winner is: " + win);
-            if(win===player1Name || win==="-"){
-              if(win===player1Name){
-                $(".win-board").prepend("<h2>"+ win+ " is the winner!</h2>");
-              } else if (win==="-"){
+            if(win[0]===player1Name || win[0]==="-"){
+              if(win[0]===player1Name){
+                $(".win-board").prepend("<h2>"+ win[0]+ " is the winner!</h2>");
+                $(".p1").addClass("winTitle");
+              } else if (win[0]==="-"){
                 $(".win-board").prepend("<h2>It's a tie!</h2>");
               }
             }
+            $("#" + win[1]).addClass("winSquare");
+            $("#" + win[2]).addClass("winSquare");
+            $("#" + win[3]).addClass("winSquare");
+
           }
         }else{
           if($(this).children().length===0){
@@ -181,13 +219,17 @@ $(function(){
             player1.turn = true;
             player2.turn = false;
             var win = newGame.checkWin();
-            if(win===player2Name || win==="-"){
-              if(win===player2Name){
-                $(".win-board").prepend("<h2>"+ win+ " is the winner!</h2>");
-              } else if (win==="-"){
+            if(win[0]===player2Name || win[0]==="-"){
+              if(win[0]===player2Name){
+                $(".win-board").prepend("<h2>"+ win[0]+ " is the winner!</h2>");
+                $(".p2").addClass("winTitle");
+              } else if (win[0]==="-"){
                 $(".win-board").prepend("<h2>It's a tie!</h2>");
               }
             }
+            $("#" + win[1]).addClass("winSquare");
+            $("#" + win[2]).addClass("winSquare");
+            $("#" + win[3]).addClass("winSquare");
           }
         };
       }

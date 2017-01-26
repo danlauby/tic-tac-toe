@@ -16,6 +16,14 @@ button {
   margin: 20px;
 }
 
+.winSquare {
+  background-color: green;
+}
+
+.winTitle {
+  color: green;
+}
+
 .col-xs-4 {
   height: 150px;
   width: 150px;
