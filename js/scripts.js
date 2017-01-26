@@ -28,9 +28,11 @@ Game.prototype.clearBoard = function() {
 }
 
 Game.prototype.checkWin = function() {
+  var winnerIs="";
   // console.log(this.board);
   if (this.board.column00 === this.board.column01 && this.board.column00 === this.board.column02) {
     console.log('someone wins first row');
+    winnerIs = this.board.column00;
     this.gameOver = true;
   }else if (this.board.column10 === this.board.column11 && this.board.column10 === this.board.column12) {
     console.log('someone wins second row');
@@ -61,6 +63,10 @@ Game.prototype.checkWin = function() {
   var search = reg.exec(objValues);
   if (search === null) {
     console.log("Tie game");
+  }
+
+  if(this.gameOver===true){
+    return winnerIs;
   }
 }
 
@@ -108,7 +114,11 @@ $(function(){
           newGame.board[this.id] = 'X';
           player1.turn = false;
           player2.turn = true;
-          newGame.checkWin();
+          // newGame.checkWin();
+          console.log(newGame.winner);
+          if(newGame.checkWin()==="X" || newGame.checkWin()==="O"){
+            $(".show-board").prepend("<h1>"+newGame.checkWin()+" is the winner!</h1>");
+          }
         }
       }else{
         if($(this).children().length===0){
