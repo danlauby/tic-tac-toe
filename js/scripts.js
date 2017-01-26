@@ -138,11 +138,16 @@ $(function(){
     var player1Name = $("#player1").val();
     var player2Name = $("#player2").val();
     if(player1Name === ""){
-      player1Name = "Player 1";
+      player1Name = "Player X";
     };
     if(player2Name === ""){
-      player2Name = "Player 2";
+      player2Name = "Player O";
     };
+    $("input").hide();
+    $(".p1 h4").empty();
+    $(".p2 h4").empty();
+    $(".p1").append("<h4>Player X: "+player1Name+"</h4>");
+    $(".p2").append("<h4>Player O: "+player2Name+"</h4>");
 
 
     var player1 = new Player(player1Name, 'X',true);
