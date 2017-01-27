@@ -2,6 +2,7 @@ function Player(playerName, symbol, turn) {
   this.playerName = playerName;
   this.symbol = symbol;
   this.turn = turn;
+  this.winTotal = 0;
 }
 
 function Board() {
@@ -36,9 +37,12 @@ Game.prototype.checkWin = function() {
   if (this.board.column00 === this.board.column01 && this.board.column00 === this.board.column02) {
     if(this.board.column00 === "X"){
       winInfo.push(this.player1.playerName);
-
+      this.player1.winTotal += 1;
+      console.log(this.player1.winTotal);
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
+      console.log(this.player2.winTotal);
     }
     winInfo.push("column00");
     winInfo.push("column01");
@@ -47,9 +51,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column10 === this.board.column11 && this.board.column10 === this.board.column12) {
     if(this.board.column10 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column10");
     winInfo.push("column11");
@@ -58,9 +64,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column20 === this.board.column21 && this.board.column20 === this.board.column22) {
     if(this.board.column20 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column20");
     winInfo.push("column21");
@@ -69,9 +77,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column00 === this.board.column10 && this.board.column00 === this.board.column20) {
     if(this.board.column00 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column00");
     winInfo.push("column10");
@@ -80,9 +90,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column01 === this.board.column11 && this.board.column01 === this.board.column21) {
     if(this.board.column01 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column01");
     winInfo.push("column11");
@@ -91,9 +103,10 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column02 === this.board.column12 && this.board.column02 === this.board.column22) {
     if(this.board.column02 === "X"){
       winInfo.push(this.player1.playerName);
-
+      this.player1.winTotal += 1;
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column02");
     winInfo.push("column12");
@@ -102,9 +115,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column00 === this.board.column11 && this.board.column00 === this.board.column22) {
     if(this.board.column00 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column00");
     winInfo.push("column11");
@@ -113,9 +128,11 @@ Game.prototype.checkWin = function() {
   }else if (this.board.column02 === this.board.column11 && this.board.column02 === this.board.column20) {
     if(this.board.column02 === "X"){
       winInfo.push(this.player1.playerName);
+      this.player1.winTotal += 1;
 
     }else{
       winInfo.push(this.player2.playerName);
+      this.player2.winTotal += 1;
     }
     winInfo.push("column02");
     winInfo.push("column11");
@@ -165,26 +182,29 @@ Game.prototype.setGame = function() {
 // }
 
 $(function(){
+  var player1Name = $("#player1").val();
+  var player2Name = $("#player2").val();
+  if(player1Name === ""){
+    player1Name = "Player X";
+  };
+  if(player2Name === ""){
+    player2Name = "Player O";
+  };
+  var player1 = new Player(player1Name, 'X',true);
+  var player2 = new Player(player2Name, 'O', false);
+  var board = new Board();
+  var newGame = new Game(board, player1, player2);
+
   $(".startGame").click(function(){
-    var player1Name = $("#player1").val();
-    var player2Name = $("#player2").val();
-    if(player1Name === ""){
-      player1Name = "Player X";
-    };
-    if(player2Name === ""){
-      player2Name = "Player O";
-    };
+    $(".p1").removeClass("winTitle");
+    $(".p2").removeClass("winTitle");
     $("input").hide();
     $(".p1 h4").empty();
     $(".p2 h4").empty();
-    $(".p1").append("<h4>Player X: "+player1Name+"</h4>");
-    $(".p2").append("<h4>Player O: "+player2Name+"</h4>");
+    $(".p1").append("<h4>Player X: "+player1Name+ "(" + player1.winTotal + ")</h4>");
+    $(".p2").append("<h4>Player O: "+player2Name+ "(" + player2.winTotal + ")</h4>");
 
 
-    var player1 = new Player(player1Name, 'X',true);
-    var player2 = new Player(player2Name, 'O', false);
-    var board = new Board();
-    var newGame = new Game(board, player1, player2);
     newGame.setGame();
     newGame.gameOver = false;
     newGame.player1.turn = true;
