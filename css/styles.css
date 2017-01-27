@@ -75,3 +75,26 @@ p {
   height: 450px;
   width: 450px;
 }
+
+.win-board h2 {
+  margin: auto;
+  text-align: center;
+}
+
+h2{
+  color: green;
+  width: 400px;
+  height: 100px;
+  -webkit-animation: mymove 5s infinite; /* Chrome, Safari, Opera */
+  animation: mymove 5s infinite;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+  50% {font-size: 35px;}
+}
+
+/* Standard syntax */
+@keyframes mymove {
+  50% {font-size: 35px;}
+}
